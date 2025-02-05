@@ -1,0 +1,115 @@
+
+<div class="mllogin-container">
+    {{#logourl}}
+    <div id="loginlogo" class="login-logo">
+        <img id="logoimage" src="{{logourl}}" class="img-fluid" alt="{{sitename}}"/>
+        <h1 class="login-heading sr-only">{{#str}} loginto, core, {{sitename}} {{/str}}</h1>
+    </div>
+    {{/logourl}}
+    <h2>{{#str}} loginheading, local_mllogin {{/str}}</h2>
+    {{#maintenance}}
+    <div class="alert alert-danger login-maintenance">
+        {{{maintenance}}}
+    </div>
+    {{/maintenance}}
+    {{#error}}
+    <a href="#" id="loginerrormessage" class="sr-only">{{error}}</a>
+    <div class="alert alert-danger" role="alert">{{error}}</div>
+    {{/error}}
+    {{#info}}
+    <a href="#" id="logininfomessage" class="sr-only">{{info}}</a>
+    <div class="alert alert-info" role="alert">{{info}}</div>
+    {{/info}}
+
+    <button id="buttonvhb" class="btn btn-outline-secondary mb-3 loginbutton">{{#str}} logintextvhb, local_mllogin {{/str}}</button><br>
+    <button id="buttonteacher" class="btn btn-outline-secondary mb-3 loginbutton">{{#str}} logintextteacher, local_mllogin {{/str}}</button><br>
+    <button id="buttonmail" class="btn btn-outline-secondary mb-3 loginbutton">{{#str}} logintextemail, local_mllogin {{/str}}</button><br>
+    {{#canloginasguest}}
+    <button id="buttonguest" class="btn btn-outline-secondary mb-3 loginbutton">{{#str}} logintextguest, local_mllogin {{/str}}</button>
+    {{/canloginasguest}}
+    <div id="loginForm" class="loginoption" style="display:none;">
+        <div class="login-divider"></div>
+        <form action="{{config.wwwroot}}/login/index.php" method="post">
+            <input id="anchor" type="hidden" name="anchor" value="">
+            <script>document.getElementById('anchor').value = location.hash;</script>
+            <input type="hidden" name="logintoken" value="{{logintoken}}">
+            <label for="username" class="sr-only">
+                {{^canloginbyemail}}
+                {{#str}} username {{/str}}
+                {{/canloginbyemail}}
+                {{#canloginbyemail}}
+                {{#str}} usernameemail {{/str}}
+                {{/canloginbyemail}}
+            </label>
+            <input type="text" name="username" required class="form-control form-control-lg mb-3"  autocomplete="username" value="{{username}}" placeholder="{{^canloginbyemail}}{{#cleanstr}}username{{/cleanstr}}{{/canloginbyemail}}{{!
+                !}}{{#canloginbyemail}}{{#cleanstr}}usernameemail{{/cleanstr}}{{/canloginbyemail}}">
+            <label for="password" class="sr-only">{{#str}} password {{/str}}</label>
+            <input type="password" name="password" required class="form-control form-control-lg mb-3" placeholder="{{#cleanstr}}password{{/cleanstr}}" autocomplete="current-password">
+            <button type="submit" class="btn btn-primary btn-lg mb-3" >{{#str}}login{{/str}}</button>
+
+
+        </form>
+        <a href="{{config.wwwroot}}/login/forgot_password.php">{{#str}} forgotpassword, local_mllogin {{/str}}</a>
+    </div>
+    <div id="loginGuest" class="loginoption" style="display:none;">
+        <div class="login-divider"></div>
+        <form action="{{config.wwwroot}}/login/index.php" method="post"  id="guestlogin">   
+            <input type="hidden" name="logintoken" value="{{logintoken}}">
+            <input type="hidden" name="username" value="guest">
+            <input type="hidden" name="password" value="guest">
+            <button class="btn btn-secondary" type="submit" id="loginguestbtn">{{#str}}loginguest{{/str}}</button>
+        </form>
+    </div>
+    <div id="loginVhb" class="loginoption" style="display:none;">
+        <div class="login-divider"></div>
+        <a href="{{vhb_link}}">{{#str}} logininstructionvhb_linked, local_mllogin {{/str}}</a> {{#str}} logininstructionvhb_after, local_mllogin {{/str}}
+    </div>
+    <div class="login-divider"></div>
+    <div class="d-flex">
+        {{#languagemenu}}
+        <div class="login-languagemenu">
+            {{>core/action_menu}}
+        </div>
+        <div class="divider border-start align-self-center mx-3"></div>
+        {{/languagemenu}}
+        <button type="button" class="btn btn-secondary" {{!
+                }} data-modal="alert"{{!
+                }} data-modal-title-str='["cookiesenabled", "core"]' {{!
+                }} data-modal-content-str='["cookiesenabled_help_html", "core"]'{{!
+                }}>{{#str}}cookiesnotice{{/str}}</button>
+    </div>
+</div>
+
+<script>
+
+    document.querySelectorAll(".loginbutton").forEach(button => {
+        button.addEventListener("click", function () {
+            document.querySelectorAll(".loginoption").forEach(div => {
+                div.style.display = "none";
+
+                div.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+
+                setTimeout(() => {
+                    document.getElementById("page-footer").scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                }, 50);
+            });
+
+        });
+    });
+    document.getElementById('buttonvhb').addEventListener('click', function () {
+        document.getElementById('loginVhb').style.display = 'block';
+    });
+    document.getElementById('buttonteacher').addEventListener('click', function () {
+        document.getElementById('loginForm').style.display = 'block';
+    });
+    document.getElementById('buttonmail').addEventListener('click', function () {
+        document.getElementById('loginForm').style.display = 'block';
+    });
+    document.getElementById('buttonguest').addEventListener('click', function () {
+        document.getElementById('loginGuest').style.display = 'block';
+    });
+    {{#error}}
+        document.getElementById('loginForm').style.display = 'block';
+    {{/error}}
+
+</script>
