@@ -43,7 +43,7 @@ class login_page implements renderable, templatable {
 
     $languagedata = new \core\output\language_menu($PAGE);
     $languagemenu = $languagedata->export_for_action_menu($OUTPUT);
-
+    $maintenance = false;
     if ($CFG->maintenance_enabled == true) {
       if (!empty($CFG->maintenance_message)) {
         $maintenance = $CFG->maintenance_message;

@@ -7,7 +7,6 @@
  * @copyright   2025 Bernhard Strehl <moodle@bytesparrow.de>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-use plugin_renderer_base;
 
 class local_mllogin_renderer extends plugin_renderer_base {
 
